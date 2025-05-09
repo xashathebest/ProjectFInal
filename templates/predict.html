@@ -1,0 +1,72 @@
+{% extends 'base.html' %}
+{% block title %}Predict{% endblock %}
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <div class="card">
+            <div class="card-body">
+                <h2 class="card-title text-center mb-4">Diabetes Risk Prediction</h2>
+                <form method="POST" class="needs-validation" novalidate>
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <label for="glucose" class="form-label">Glucose Level (mg/dL)</label>
+                            <input type="number" class="form-control" id="glucose" name="glucose" required min="0" step="1">
+                        </div>
+                        <div class="col-md-6">
+                            <label for="blood_pressure" class="form-label">Blood Pressure (mm Hg)</label>
+                            <input type="number" class="form-control" id="blood_pressure" name="blood_pressure" required min="0" step="1">
+                        </div>
+                        <div class="col-md-6">
+                            <label for="insulin" class="form-label">Insulin Level (mu U/ml)</label>
+                            <input type="number" class="form-control" id="insulin" name="insulin" required min="0" step="1">
+                        </div>
+                        <div class="col-md-6">
+                            <label for="bmi" class="form-label">BMI (kg/m²)</label>
+                            <input type="number" class="form-control" id="bmi" name="bmi" required min="0" step="0.1">
+                        </div>
+                        <div class="col-md-6">
+                            <label for="age" class="form-label">Age (years)</label>
+                            <input type="number" class="form-control" id="age" name="age" required min="0" step="1">
+                        </div>
+                    </div>
+                    <div class="d-grid gap-2 mt-4">
+                        <button type="submit" class="btn btn-primary btn-lg">
+                            <i class="bi bi-calculator me-2"></i>Predict Risk
+                        </button>
+                    </div>
+                </form>
+
+                {% if prediction is not none %}
+                <div class="mt-4">
+                    <div class="alert {% if prediction == 1 %}alert-danger{% else %}alert-success{% endif %} text-center">
+                        <h4 class="alert-heading">
+                            {% if prediction == 1 %}
+                            <i class="bi bi-exclamation-triangle-fill me-2"></i>High Risk
+                            {% else %}
+                            <i class="bi bi-check-circle-fill me-2"></i>Low Risk
+                            {% endif %}
+                        </h4>
+                        {% if probability is not none %}
+                        <p class="mb-0">Probability: {{ "%.1f"|format(probability * 100) }}%</p>
+                        {% endif %}
+                    </div>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const form = document.querySelector('form');
+    form.addEventListener('submit', function(event) {
+        if (!form.checkValidity()) {
+            event.preventDefault();
+            event.stopPropagation();
+        }
+        form.classList.add('was-validated');
+    });
+});
+</script>
+{% endblock %} 

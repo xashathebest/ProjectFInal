@@ -1,0 +1,11 @@
+<form method="POST" action="{% url 'predict' %}">
+  {% csrf_token %}
+  {% for name in fields %}
+    <input type="number" step="any" name="{{ name }}" placeholder="{{ name }}" required><br>
+  {% endfor %}
+  <button type="submit">Predict</button>
+</form>
+
+{% if prediction %}
+  <h2>Prediction: {{ prediction }}</h2>
+{% endif %}

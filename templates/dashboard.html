@@ -1,0 +1,72 @@
+{% extends "base.html" %}
+
+{% block title %}Dashboard{% endblock %}
+
+{% block content %}
+<h2 class="mb-4">Diabetes Analysis Dashboard</h2>
+
+<!-- Statistics Cards -->
+<div class="row">
+    <div class="col-md-4">
+        <div class="stats-card">
+            <h4>Total Patients</h4>
+            <h2>{{ stats.total_patients }}</h2>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="stats-card">
+            <h4>Diabetes Positive</h4>
+            <h2>{{ stats.diabetes_positive }}</h2>
+            <p>{{ (stats.diabetes_positive / stats.total_patients * 100)|round(1) }}% of total</p>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="stats-card">
+            <h4>Diabetes Negative</h4>
+            <h2>{{ stats.diabetes_negative }}</h2>
+            <p>{{ (stats.diabetes_negative / stats.total_patients * 100)|round(1) }}% of total</p>
+        </div>
+    </div>
+</div>
+
+<div class="row mt-4">
+    <div class="col-md-4">
+        <div class="stats-card">
+            <h4>Average Glucose</h4>
+            <h2>{{ stats.avg_glucose|round(1) }}</h2>
+            <p>mg/dL</p>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="stats-card">
+            <h4>Average BMI</h4>
+            <h2>{{ stats.avg_bmi|round(1) }}</h2>
+            <p>kg/m²</p>
+        </div>
+    </div>
+</div>
+
+<!-- Charts -->
+<div class="row mt-4">
+    <div class="col-md-6">
+        <div class="chart-container">
+            <div id="ageChart"></div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="chart-container">
+            <div id="bmiGlucoseChart"></div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Age Distribution Chart
+    var ageData = {{ age_chart|safe }};
+    Plotly.newPlot('ageChart', ageData.data, ageData.layout);
+
+    // BMI vs Glucose Chart
+    var bmiGlucoseData = {{ bmi_glucose_chart|safe }};
+    Plotly.newPlot('bmiGlucoseChart', bmiGlucoseData.data, bmiGlucoseData.layout);
+</script>
+{% endblock %} 

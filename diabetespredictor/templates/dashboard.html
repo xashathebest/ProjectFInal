@@ -1,0 +1,236 @@
+{% extends 'base.html' %}
+
+{% block title %}Dashboard{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-md-12 mb-4">
+            <div class="card shadow">
+                <div class="card-header bg-primary text-white">
+                    <h4 class="mb-0">Model Performance Metrics</h4>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="card mb-3">
+                                <div class="card-body text-center">
+                                    <h5 class="card-title">Accuracy</h5>
+                                    <h2 class="text-primary">88.31%</h2>
+                                    <p class="text-muted">Overall prediction accuracy</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="card mb-3">
+                                <div class="card-body text-center">
+                                    <h5 class="card-title">ROC AUC Score</h5>
+                                    <h2 class="text-primary">0.9463</h2>
+                                    <p class="text-muted">Area Under ROC Curve</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row mt-4">
+                        <div class="col-md-12">
+                            <h5>Classification Report</h5>
+                            <div class="table-responsive">
+                                <table class="table table-bordered">
+                                    <thead class="table-light">
+                                        <tr>
+                                            <th>Class</th>
+                                            <th>Precision</th>
+                                            <th>Recall</th>
+                                            <th>F1-Score</th>
+                                            <th>Support</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>Non-Diabetic (0)</td>
+                                            <td>0.93</td>
+                                            <td>0.89</td>
+                                            <td>0.91</td>
+                                            <td>100</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Diabetic (1)</td>
+                                            <td>0.81</td>
+                                            <td>0.87</td>
+                                            <td>0.84</td>
+                                            <td>54</td>
+                                        </tr>
+                                        <tr class="table-light">
+                                            <td>Macro Avg</td>
+                                            <td>0.87</td>
+                                            <td>0.88</td>
+                                            <td>0.87</td>
+                                            <td>154</td>
+                                        </tr>
+                                        <tr class="table-light">
+                                            <td>Weighted Avg</td>
+                                            <td>0.89</td>
+                                            <td>0.88</td>
+                                            <td>0.88</td>
+                                            <td>154</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row mt-4">
+                        <div class="col-md-12">
+                            <div class="alert alert-info">
+                                <h5>Model Performance Summary</h5>
+                                <ul>
+                                    <li>The model achieves high accuracy (88.31%) in predicting diabetes risk</li>
+                                    <li>Excellent ROC AUC score (0.9463) indicates strong discriminative ability</li>
+                                    <li>Balanced performance between classes with good precision and recall</li>
+                                    <li>Higher precision for non-diabetic predictions (93%)</li>
+                                    <li>Strong recall for diabetic predictions (87%)</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Dataset Statistics -->
+    <div class="row">
+        <div class="col-md-6 mb-4">
+            <div class="card shadow">
+                <div class="card-header bg-primary text-white">
+                    <h5 class="mb-0">Dataset Statistics</h5>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-6 mb-3">
+                            <div class="card bg-light">
+                                <div class="card-body text-center">
+                                    <h6 class="card-title">Total Records</h6>
+                                    <h3 class="text-primary">1012</h3>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-6 mb-3">
+                            <div class="card bg-light">
+                                <div class="card-body text-center">
+                                    <h6 class="card-title">Features</h6>
+                                    <h3 class="text-success">9</h3>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="table table-sm">
+                            <thead>
+                                <tr>
+                                    <th>Feature</th>
+                                    <th>Mean</th>
+                                    <th>Std</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Glucose</td>
+                                    <td>120.9</td>
+                                    <td>31.9</td>
+                                </tr>
+                                <tr>
+                                    <td>Blood Pressure</td>
+                                    <td>69.1</td>
+                                    <td>19.4</td>
+                                </tr>
+                                <tr>
+                                    <td>BMI</td>
+                                    <td>32.0</td>
+                                    <td>7.9</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Model Performance -->
+       
+            </div>
+        </div>
+    </div>
+
+    <!-- Visualizations -->
+    <div class="row">
+        <div class="col-md-6 mb-4">
+            <div class="card shadow">
+                <div class="card-body">
+                    <canvas id="targetDistribution"></canvas>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6 mb-4">
+            <div class="card shadow">
+                <div class="card-header bg-warning text-white">
+                    <h5 class="mb-0">Feature Importance</h5>
+                </div>
+                <div class="card-body">
+                    <canvas id="featureImportance"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Chart.js -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+// Target Distribution Chart
+const targetCtx = document.getElementById('targetDistribution').getContext('2d');
+new Chart(targetCtx, {
+    type: 'pie',
+    data: {
+        labels: ['Non-Diabetic', 'Diabetic'],
+        datasets: [{
+            data: [500, 268],
+            backgroundColor: ['#28a745', '#dc3545']
+        }]
+    },
+    options: {
+        responsive: true,
+        plugins: {
+            legend: {
+                position: 'bottom'
+            }
+        }
+    }
+});
+
+// Feature Importance Chart
+const featureCtx = document.getElementById('featureImportance').getContext('2d');
+new Chart(featureCtx, {
+    type: 'bar',
+    data: {
+        labels: ['Glucose', 'BMI', 'Age', 'Insulin', 'Blood Pressure'],
+        datasets: [{
+            label: 'Importance Score',
+            data: [0.25, 0.20, 0.15, 0.15, 0.10],
+            backgroundColor: '#17a2b8'
+        }]
+    },
+    options: {
+        responsive: true,
+        scales: {
+            y: {
+                beginAtZero: true,
+                max: 0.3
+            }
+        }
+    }
+});
+</script>
+{% endblock %} 

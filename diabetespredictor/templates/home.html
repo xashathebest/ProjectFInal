@@ -1,0 +1,161 @@
+{% extends 'base.html' %}
+
+{% block title %}Diabetes Risk Predictor{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <!-- Hero Section -->
+    <div class="row mb-5">
+        <div class="col-md-12 text-center">
+            <h1 class="display-4 mb-3">Diabetes Risk Predictor</h1>
+            <p class="lead">Predict diabetes risk using machine learning based on clinical measurements</p>
+            {% if not current_user.is_authenticated %}
+            <div class="mt-4">
+                <a href="{{ url_for('login') }}" class="btn btn-primary btn-lg me-3">Login</a>
+                <a href="{{ url_for('register') }}" class="btn btn-outline-primary btn-lg">Register</a>
+            </div>
+            {% else %}
+            <div class="mt-4">
+                <a href="{{ url_for('predict') }}" class="btn btn-primary btn-lg">Start Prediction</a>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+
+    <!-- Dataset Information -->
+    <div class="row mb-5">
+        <div class="col-md-12">
+            <div class="card shadow">
+                <div class="card-header bg-primary text-white">
+                    <h4 class="mb-0">About the Dataset</h4>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <h5>Context</h5>
+                            <p>This dataset is originally from the National Institute of Diabetes and Digestive and Kidney Diseases. The objective is to predict based on diagnostic measurements whether a patient has diabetes.</p>
+                            
+                            <h5 class="mt-4">Patient Information</h5>
+                            <div class="alert alert-info">
+                                <p class="mb-0">All patients in this dataset are:</p>
+                                <ul class="mb-0">
+                                    <li>At least 21 years old</li>
+                                    <li>Of Pima Indian heritage</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <h5>Features</h5>
+                            <div class="table-responsive">
+                                <table class="table table-hover">
+                                    <thead class="table-light">
+                                        <tr>
+                                            <th>Feature</th>
+                                            <th>Description</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>Pregnancies</td>
+                                            <td>Number of times pregnant</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Glucose</td>
+                                            <td>Plasma glucose concentration at 2 hours in an oral glucose tolerance test</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Blood Pressure</td>
+                                            <td>Diastolic blood pressure (mm Hg)</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Skin Thickness</td>
+                                            <td>Triceps skin fold thickness (mm)</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Insulin</td>
+                                            <td>2-Hour serum insulin (mu U/ml)</td>
+                                        </tr>
+                                        <tr>
+                                            <td>BMI</td>
+                                            <td>Body mass index (weight in kg/(height in m)²)</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Diabetes Pedigree Function</td>
+                                            <td>Diabetes pedigree function</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Age</td>
+                                            <td>Age in years</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Model Performance Highlights -->
+    <div class="row mb-5">
+        <div class="col-md-12">
+            <div class="card shadow">
+                <div class="card-header bg-success text-white">
+                    <h4 class="mb-0">Model Performance</h4>
+                </div>
+                <div class="card-body">
+                    <div class="row text-center">
+                        <div class="col-md-4">
+                            <div class="card bg-light mb-3">
+                                <div class="card-body">
+                                    <h3 class="text-success">88.31%</h3>
+                                    <p class="text-muted">Accuracy</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="card bg-light mb-3">
+                                <div class="card-body">
+                                    <h3 class="text-success">0.9463</h3>
+                                    <p class="text-muted">ROC AUC Score</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="card bg-light mb-3">
+                                <div class="card-body">
+                                    <h3 class="text-success">93%</h3>
+                                    <p class="text-muted">Precision (Non-Diabetic)</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Call to Action -->
+    <div class="row">
+        <div class="col-md-12 text-center">
+            <div class="card shadow">
+                <div class="card-body">
+                    <h3>Ready to Predict?</h3>
+                    <p class="lead">Get started by logging in or registering to use our diabetes risk prediction tool.</p>
+                    {% if not current_user.is_authenticated %}
+                    <div class="mt-3">
+                        <a href="{{ url_for('login') }}" class="btn btn-primary btn-lg me-3">Login</a>
+                        <a href="{{ url_for('register') }}" class="btn btn-outline-primary btn-lg">Register</a>
+                    </div>
+                    {% else %}
+                    <div class="mt-3">
+                        <a href="{{ url_for('predict') }}" class="btn btn-primary btn-lg">Start Prediction</a>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %} 

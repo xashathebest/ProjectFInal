@@ -1,0 +1,163 @@
+{% extends 'base.html' %}
+{% block title %}Predict Diabetes Risk{% endblock %}
+{% block content %}
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow">
+                <div class="card-header bg-primary text-white">
+                    <h4 class="mb-0">Diabetes Risk Prediction</h4>
+                </div>
+                <div class="card-body">
+                    <form method="POST" class="needs-validation" novalidate>
+                        <div class="mb-3">
+                            <label for="glucose" class="form-label">Glucose Level (mg/dL)</label>
+                            <input type="number" class="form-control" id="glucose" name="glucose" 
+                                   min="50" max="300" required>
+                            <div class="invalid-feedback">Please enter glucose level (50-300).</div>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="blood_pressure" class="form-label">Blood Pressure (mmHg)</label>
+                            <input type="number" class="form-control" id="blood_pressure" name="blood_pressure" 
+                                   min="40" max="180" required>
+                            <div class="invalid-feedback">Please enter blood pressure (40-180).</div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="skin_thickness" class="form-label">Skin Thickness (mm)</label>
+                            <input type="number" class="form-control" id="skin_thickness" name="skin_thickness" 
+                                   min="7" max="99" required>
+                            <div class="invalid-feedback">Please enter skin thickness (7-99).</div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="insulin" class="form-label">Insulin Level (μU/mL)</label>
+                            <input type="number" class="form-control" id="insulin" name="insulin" 
+                                   min="14" max="846" required>
+                            <div class="invalid-feedback">Please enter insulin level (14-846).</div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="bmi" class="form-label">BMI (kg/m²)</label>
+                            <input type="number" class="form-control" id="bmi" name="bmi" 
+                                   step="0.1" min="10" max="60" required>
+                            <div class="invalid-feedback">Please enter BMI (10-60).</div>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary">Predict Risk</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Prediction Result Modal -->
+{% if prediction is not none %}
+<div class="modal fade" id="predictionModal" tabindex="-1" aria-labelledby="predictionModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="predictionModalLabel">Prediction Result</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="text-center mb-4">
+                    {% if prediction == "Low Risk" %}
+                        <i class="fas fa-check-circle text-success" style="font-size: 4rem;"></i>
+                    {% elif prediction == "Medium Risk" %}
+                        <i class="fas fa-exclamation-circle text-warning" style="font-size: 4rem;"></i>
+                    {% else %}
+                        <i class="fas fa-exclamation-triangle text-danger" style="font-size: 4rem;"></i>
+                    {% endif %}
+                </div>
+                
+                <h4 class="text-center mb-3 text-{{ 'success' if prediction == 'Low Risk' 
+                                      else 'warning' if prediction == 'Medium Risk' 
+                                      else 'danger' }}">
+                    {{ prediction }}
+                </h4>
+                
+                <div class="alert alert-{{ 'success' if prediction == 'Low Risk' 
+                                      else 'warning' if prediction == 'Medium Risk' 
+                                      else 'danger' }}">
+                    {{ advice }}
+                </div>
+
+                {% if analysis is defined %}
+                <div class="row mt-4">
+                    <div class="col-md-6">
+                        <h5>Risk Assessment</h5>
+                        <ul class="list-group">
+                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                Glucose Level
+                                <span class="badge bg-{{ 'danger' if analysis.glucose_status == 'High' else 'success' }}">
+                                    {{ analysis.glucose_status }}
+                                </span>
+                            </li>
+                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                BMI
+                                <span class="badge bg-{{ 'danger' if analysis.bmi_status == 'High' else 'success' }}">
+                                    {{ analysis.bmi_status }}
+                                </span>
+                            </li>
+                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                Insulin Level
+                                <span class="badge bg-{{ 'danger' if analysis.insulin_status == 'High' else 'success' }}">
+                                    {{ analysis.insulin_status }}
+                                </span>
+                            </li>
+                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                Blood Pressure
+                                <span class="badge bg-{{ 'danger' if analysis.bp_status == 'High' else 'success' }}">
+                                    {{ analysis.bp_status }}
+                                </span>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="col-md-6">
+                        <h5>Key Metrics</h5>
+                        <ul class="list-group">
+                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                Risk Probability
+                                <span class="badge bg-primary">{{ probability }}</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                {% endif %}
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+// Auto-show modal when results are available
+document.addEventListener('DOMContentLoaded', function() {
+    const predictionModal = new bootstrap.Modal(document.getElementById('predictionModal'));
+    predictionModal.show();
+});
+</script>
+{% endif %}
+
+<script>
+// Form validation
+(function () {
+    'use strict'
+    const forms = document.querySelectorAll('.needs-validation')
+    Array.prototype.slice.call(forms).forEach(function (form) {
+        form.addEventListener('submit', function (event) {
+            if (!form.checkValidity()) {
+                event.preventDefault()
+                event.stopPropagation()
+            }
+            form.classList.add('was-validated')
+        }, false)
+    })
+})()
+</script>
+{% endblock %}

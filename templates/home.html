@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+{% block title %}Home{% endblock %}
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-8 text-center">
+        <h1 class="display-4 fw-bold mb-4">Diabetes Risk Prediction</h1>
+        <p class="lead mb-5">Get an instant assessment of your diabetes risk using our advanced machine learning model.</p>
+        
+        {% if current_user.is_authenticated %}
+            <div class="d-grid gap-3 d-sm-flex justify-content-sm-center">
+                <a href="{{ url_for('predict') }}" class="btn btn-primary btn-lg px-5">
+                    <i class="bi bi-calculator me-2"></i>Make Prediction
+                </a>
+            </div>
+        {% else %}
+            <div class="d-grid gap-3 d-sm-flex justify-content-sm-center">
+                <a href="{{ url_for('register') }}" class="btn btn-primary btn-lg px-5">
+                    <i class="bi bi-person-plus me-2"></i>Get Started
+                </a>
+                <a href="{{ url_for('login') }}" class="btn btn-outline-primary btn-lg px-5">
+                    <i class="bi bi-box-arrow-in-right me-2"></i>Login
+                </a>
+            </div>
+        {% endif %}
+    </div>
+</div>
+
+<div class="row mt-5">
+    <div class="col-md-4 mb-4">
+        <div class="card h-100">
+            <div class="card-body text-center">
+                <i class="bi bi-shield-check text-primary" style="font-size: 2.5rem;"></i>
+                <h3 class="card-title h4 mt-3">Secure & Private</h3>
+                <p class="card-text">Your health data is protected with enterprise-grade security measures.</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4 mb-4">
+        <div class="card h-100">
+            <div class="card-body text-center">
+                <i class="bi bi-graph-up text-primary" style="font-size: 2.5rem;"></i>
+                <h3 class="card-title h4 mt-3">Instant Results</h3>
+                <p class="card-text">Get immediate predictions based on your health metrics.</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4 mb-4">
+        <div class="card h-100">
+            <div class="card-body text-center">
+                <i class="bi bi-cpu text-primary" style="font-size: 2.5rem;"></i>
+                <h3 class="card-title h4 mt-3">Advanced AI</h3>
+                <p class="card-text">Powered by state-of-the-art machine learning algorithms.</p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %} 
