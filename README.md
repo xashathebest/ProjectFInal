@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Diabetes Prediction System
 
 This project implements a machine learning-based diabetes prediction system with a web interface. It includes model training, cross-validation, and a user-friendly web application for predictions.
@@ -78,3 +79,6 @@ To prevent data leakage:
 - Feature scaling is performed after train-test split
 - Cross-validation is performed on the training set
 - Test set is only used for final evaluation 
+=======
+# ProjectFInal
+>>>>>>> 30b64c3a5ad229f75b7bdd89ca20c9f84180a073
